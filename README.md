@@ -91,8 +91,8 @@ Rates per game
     -   deflect
     -   backhand
     -   slapshot
--   ev toi (from in seasons data nhl api)
--   pp toi (from in seasons data nhl api)
+-   ev toi (from in seasons data nhl api) NEW: refine projected evtoi model using projected rosters and lines from last season
+-   pp toi (from in seasons data nhl api) NEW: refine projected pptoi model using projected rosters and lines from last season
 -   weighted projection of dependent variable (goals or assist)
 
 ## Adjusted rate
