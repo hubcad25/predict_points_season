@@ -35,66 +35,14 @@ Stable
 -   Draft rank (undrafted = 300)
 -   Height
 
-ARIMA projections for each variable
+ARIMA projections for each relevant variable (from MoneyPuck)
 
--   Shots from slot :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Conversion % for shots from slot :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Shots from wing :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Conversion % for shots from wing :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Shots from point :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Conversion % for shots from point :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Proportion of missed or blocked shots from slot :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Proportion of missed or blocked shots from wings :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   Proportion of missed or blocked shots from point :
-    -   all
-    -   wristshot
-    -   deflect
-    -   backhand
-    -   slapshot
--   ev toi (from in seasons data nhl api) NEW: refine projected evtoi model using projected rosters and lines from last season
--   pp toi (from in seasons data nhl api) NEW: refine projected pptoi model using projected rosters and lines from last season
+-   game variables (xg, etc.)
+-   ev toi NEW: refine projected evtoi model using projected rosters and lines from last season
+-   pp toi NEW: refine projected pptoi model using projected rosters and lines from last season
 -   weighted projection of dependent variable (goals or assist)
--   
+-   projected linemates value
+-   projection of team value
 
 ## Adjusted rate
 
