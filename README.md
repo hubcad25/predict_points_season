@@ -29,10 +29,10 @@ In total: 2 components (goals and assists) and 2 positions (F and D): 2 x 2 = 4 
 
 ## Time on ice
 
-[] EV TOI 
-[] PP TOI (via nhl api)
+- [] EV TOI 
+- [] PP TOI (via nhl api)
     - https://api.nhle.com/stats/rest/en/skater/timeonice?isAggregate=true&isGame=false&sort=%5B%7B%22property%22:%22timeOnIce%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22playerId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=1&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20232024%20and%20seasonId%3E=20222023
-[] Team PP %
+- [] Team PP %
 
 ## Team play
 
