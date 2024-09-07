@@ -1,23 +1,13 @@
 # predict_points_season
 
-## Intro
+## Random notes
 
-### Projection windows
-
-Two projection windows:
-
--   1-year point projection
--   5-year point projection
-
-Each model will generate the uncertainty of the projection, a confidence interval.
+- Each model will generate the uncertainty of the projection, a confidence interval.
+- The schema of the architecture of the project is `schemas/main.png`
 
 ### Dependent variables
 
 Each model will be composed of two submodels predicting two different dependent variables. For example, goals and assists are going to be two different submodels. The predictions from the two models will be added together to estimate the points of a player. The variances between the two models will be added together to compose the distribution of potential point outcomes of a player.
-
-### Historic of independant variables
-
-Models will also differ for how many seasons the player has played. Models for 3+seasons-historic, 2seasons-historic and 1season-historic will be created. The arbitrary cutoff will be at 10% of a season. If a player skips one season, the missing season will be filled with the former season data.
 
 ### Position
 
