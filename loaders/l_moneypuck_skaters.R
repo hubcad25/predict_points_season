@@ -40,11 +40,15 @@ for (i in lake_files){
   data <- readRDS(i)
   outputi <- data |> 
     select(
-      playerId,
+      player_id = playerId,
       season,
       name,
       team,
       games_played,
+      points = I_F_points,
+      goals = I_F_goals,
+      assists1 = I_F_primaryAssists,
+      assists2 = I_F_secondaryAssists,
       icetime,
       all_of(variables)
     )
