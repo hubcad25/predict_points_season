@@ -17,17 +17,17 @@ lake_files <- list.files(
 for (i in lake_files){
   outputi <- readRDS(i) |> 
     mutate(
-      playerId1 = substr(lineId, 1, 7),
-      playerId2 = substr(lineId, 8, 14),
-      playerId3 = substr(lineId, 15, 22)
+      player_id_1 = substr(lineId, 1, 7),
+      player_id_2 = substr(lineId, 8, 14),
+      player_id_3 = substr(lineId, 15, 22)
     ) |> 
     select(
-      lineId,
+      line_id = lineId,
       season,
       name,
       team,
       position,
-      starts_with("playerId"),
+      starts_with("player_id"),
       icetime
     )
   if (i == lake_files[1]){

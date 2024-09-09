@@ -15,25 +15,25 @@ lake_files <- list.files(
 
 ## Variables to keep in warehouse table
 variables <- c(
-  "gameScore",
-  "onIce_xGoalsPercentage",
-  "I_F_flurryScoreVenueAdjustedxGoals",
-  "I_F_xRebounds",
-  "I_F_xPlayContinuedInZone",
-  "I_F_shotsOnGoal",
-  "I_F_xOnGoal",
-  "I_F_reboundxGoals",
-  "I_F_lowDangerxGoals",
-  "I_F_mediumDangerxGoals",
-  "I_F_highDangerxGoals",
-  "I_F_xGoalsFromxReboundsOfShots",
-  "I_F_xGoals_with_earned_rebounds_scoreFlurryAdjusted",
-  "I_F_lowDangerGoals",
-  "I_F_mediumDangerGoals",
-  "I_F_highDangerGoals",
-  "I_F_reboundGoals",
-  "I_F_takeaways",
-  "I_F_giveaways"
+  "game_score" = "gameScore",
+  "onice_xg_pct" = "onIce_xGoalsPercentage",
+  "xg_flurryscorevenue_adjusted" = "I_F_flurryScoreVenueAdjustedxGoals",
+  "xrebounds" = "I_F_xRebounds",
+  "xplay_continued" = "I_F_xPlayContinuedInZone",
+  "shots" = "I_F_shotsOnGoal",
+  "xon_goal" = "I_F_xOnGoal",
+  "xg_rebound" = "I_F_reboundxGoals",
+  "xg_lowdanger" = "I_F_lowDangerxGoals",
+  "xg_mediumdanger" = "I_F_mediumDangerxGoals",
+  "xg_highdanger" = "I_F_highDangerxGoals",
+  "xrebounds_quality" = "I_F_xGoalsFromxReboundsOfShots",
+  "earned_rebounds" = "I_F_xGoals_with_earned_rebounds_scoreFlurryAdjusted",
+  "goals_lowdanger" = "I_F_lowDangerGoals",
+  "goals_mediumdanger" = "I_F_mediumDangerGoals",
+  "goals_highdanger" = "I_F_highDangerGoals",
+  "goals_rebound" = "I_F_reboundGoals",
+  "takeaways" = "I_F_takeaways",
+  "giveaways" = "I_F_giveaways"
 )
 
 for (i in lake_files){
