@@ -50,6 +50,7 @@ for (i in lake_files){
       assists1 = I_F_primaryAssists,
       assists2 = I_F_secondaryAssists,
       icetime,
+      situation,
       all_of(variables)
     )
   if (i == lake_files[1]){
