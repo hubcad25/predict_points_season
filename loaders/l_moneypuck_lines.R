@@ -1,0 +1,42 @@
+## This script loads all the IVs from the moneypuck/lines files into one table containing all seasons.
+## It does not make any transformations to the data.
+
+options(scipen = 999)
+
+# Packages ---------------------------------------------------------------
+library(dplyr)
+
+# Data -------------------------------------------------------------------
+
+lake_files <- list.files(
+  path = "data/lake/moneypuck",
+  pattern = "lines_*",
+  full.names = TRUE
+)
+
+for (i in lake_files){
+  outputi <- readRDS(i) |> 
+    mutate(
+      playerId1 = substr(lineId, 1, 7),
+      playerId2 = substr(lineId, 8, 14),
+      playerId3 = substr(lineId, 15, 22)
+    ) |> 
+    select(
+      lineId,
+      season,
+      name,
+      team,
+      position,
+      starts_with("playerId"),
+      icetime
+    )
+  if (i == lake_files[1]){
+    output <- outputi
+  } else {
+    output <- rbind(output, outputi)
+  }
+  message(i)
+}
+
+## Save it
+saveRDS(output, "data/warehouse/lines.rds")

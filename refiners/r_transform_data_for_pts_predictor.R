@@ -1,5 +1,7 @@
-## This script loads all the IVs from the moneypuck/skaters files into one table containing all seasons.
-## It does not make any transformations to the data
+## This script takes **3** warehouse tables to transform it into a dataset that is ready to use to train the random forest model that predicts points
+#### 1. individual_skaters
+#### 2. lines
+#### 3. players_infos
 
 # Packages ---------------------------------------------------------------
 library(dplyr)
