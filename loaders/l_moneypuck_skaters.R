@@ -14,7 +14,7 @@ lake_files <- list.files(
 )
 
 ## Variables to keep in warehouse table
-variables <- ptspredictR::independant_variables
+variables <- ptspredictR::independant_variables_to_load
 
 for (i in lake_files){
   data <- readRDS(i)
