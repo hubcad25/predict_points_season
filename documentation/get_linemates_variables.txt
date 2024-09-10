@@ -1,6 +1,6 @@
 get_teammates_time_distribution(lines_df)
 	returns dataframe:
-		playerId, season, linemateId, icetime, prop_icetime
+		
 		
 
 df_teammates_distributions <- get_teammates_time_distributions(warehouse_lines)
