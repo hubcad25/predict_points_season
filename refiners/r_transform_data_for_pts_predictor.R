@@ -34,65 +34,117 @@ df_individual_skaters <- readRDS("data/warehouse/individual_skaters.rds") |>
     finishing_mediumdanger = ptspredictR::cap_values_above_threshold(finishing_mediumdanger, 0.95),
     finishing_highdanger = ptspredictR::cap_values_above_threshold(finishing_highdanger, 0.98),
     finishing_rebound = ptspredictR::cap_values_above_threshold(finishing_rebound, 0.975),
-  )
+  ) |> 
+  select(-name, -assists1, -assists2)
+
+df_player_infos <- readRDS("data/warehouse/player_infos.rds")
 
 df_dependent_variables <- df_individual_skaters |> 
   filter(situation == "all") |> 
   select(
     player_id, season,
-    games_played, points, goals, assists
+    points, goals, assists
   )
 
-# 1. Players infos (from NHL API) ----------------------------------------
-
-
-
+df_lines <- readRDS("data/warehouse/lines.rds")
 
 # 2. Individual stats ----------------------------------------------------------------
-  
 df_even <- df_individual_skaters |> 
   filter(situation == "5on5") |> 
   select(
     player_id,
     season,
     ev_icetime = icetime,
-    all_of(names(ptspredictR::independant_variables))
-    ) |> 
-  mutate(
-
-  )
-
-at_pp <- data |> 
-  filter(situation == "5on4") |> 
-  select(
-    playerId,
-    season,
-    gameScore,
-    icetime,
-    onIce_xGoalsPercentage,
-    I_F_flurryScoreVenueAdjustedxGoals,
-    I_F_shotsOnGoal,
-    I_F_xOnGoal,
-    I_F_reboundxGoals,
-    I_F_lowDangerxGoals,
-    I_F_mediumDangerxGoals,
-    I_F_highDangerxGoals,
-    I_F_xGoals_with_earned_rebounds_scoreFlurryAdjusted,
-    I_F_lowDangerGoals,
-    I_F_mediumDangerGoals,
-    I_F_highDangerGoals,
-    I_F_reboundGoals
+    all_of(ptspredictR::ev_variables)
     )
 
-names(at_pp) <- paste0(names(at_pp), "_pp")
-
-output <- left_join(
-  at_even, at_pp,
-  by = c("playerId" = "playerId_pp", "season" = "season_pp")
-)
+df_pp <- df_individual_skaters |> 
+  filter(situation == "5on4") |> 
+  select(
+    player_id,
+    season,
+    pp_icetime = icetime,
+    all_of(ptspredictR::pp_variables)
+    )
 
 # 3. Teammates stats -----------------------------------------------------------
 
+df_individual_teammates <- df_individual_skaters |> 
+  select(
+    player_id, season,
+    all_of(ptspredictR::teammates_variables)
+  )
+
+## Join df_individual_teammates on time share of linemates by player id
+df_individual_linemates <- ptspredictR::get_teammates_time_share(df_lines) |> 
+  mutate(player_id = as.numeric(player_id)) %>%
+  left_join(
+    ., df_individual_teammates,
+    by = c("player_id", "season")
+  ) |> 
+  tidyr::pivot_longer(
+    cols = names(ptspredictR::teammates_variables),
+    names_to = "variable"
+  ) |> 
+  tidyr::drop_na()
+
+df_teammates <- df_individual_linemates |> 
+  group_by(player_id, season, variable) |> 
+  summarise(
+    mean = weighted.mean(x = value, w = prop_icetime)
+  ) |> 
+  tidyr::pivot_wider(
+    names_from = "variable",
+    values_from = "mean"
+  )
 
 # 4. Team stats ----------------------------------------------------------
 
+
+
+
+# 5. Join everything --------------------------------------------------------
+
+output <- df_even %>%
+  left_join(
+    ., df_player_infos,
+    by = "player_id"
+    ) %>%
+  left_join(
+      ., df_pp,
+      by = c("player_id", "season")
+    )%>%
+  left_join(
+    ., df_teammates,
+    by = c("player_id", "season")
+  ) %>%
+  #left_join(
+  #  ., df_team_stats,
+  #  by = c("player_id", "season")
+  #) %>%
+  left_join(
+    ., df_dependent_variables,
+    by = c("player_id", "season")
+  ) |> 
+  mutate(age = season - yob) |> 
+  select(
+    -all_of(c("player_id", "yob", "first_name", "last_name"))
+  ) |> 
+  relocate(
+    points, goals, assists, age, height, draft_rank, ev_icetime, pp_icetime
+  ) |> 
+  tidyr::drop_na()
+
+# Save datasets by position ----------------------------------------------
+
+output_f <- output |> 
+  filter(position %in% c("C", "L", "R")) |> 
+  select(-position)
+
+saveRDS(output_f, "data/marts/data_random_forest_forwards.rds")
+
+output_d <- output |> 
+  filter(position %in% c("D")) |> 
+  select(-position)
+
+saveRDS(output_d, "data/marts/data_random_forest_defensemen.rds")
