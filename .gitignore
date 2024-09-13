@@ -1,6 +1,9 @@
 ## Data folder
 data/
 
+apis/**/models/
+apis/**/data/
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
