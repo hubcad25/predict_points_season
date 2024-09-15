@@ -128,7 +128,7 @@ output <- df_even %>%
   ) |> 
   mutate(age = season - yob) |> 
   select(
-    -all_of(c("player_id", "yob", "first_name", "last_name"))
+    -all_of(c("yob", "first_name", "last_name"))
   ) |> 
   relocate(
     points, goals, assists, age, height, draft_rank, ev_icetime, pp_icetime
