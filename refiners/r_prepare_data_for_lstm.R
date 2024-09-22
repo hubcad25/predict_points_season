@@ -15,7 +15,7 @@ df_player_infos <- readRDS("data/warehouse/player_infos.rds") |>
     forward = ifelse(position %in% c("C", "L", "R"), 1, 0),
     defenseman = ifelse(position == "D", 1, 0)
 ) |> 
-  select(player_id, yob, height, draft_rank, forward, defenseman)
+  select(player_id, yob, height, draft_rank, position)
 
 # Set variables to include in past stats ----------------------------------------------------------
 variables <- c(

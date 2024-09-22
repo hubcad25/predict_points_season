@@ -1,6 +1,7 @@
 library(dplyr)
 library(keras)
-library(tensorflow)
+library(ggplot2)
+#library(tensorflow)
 
 data <- readRDS("data/warehouse/test_lstm.rds")
 
@@ -28,7 +29,7 @@ y <- as.matrix(data$game_score)
 
 # Train model ------------------------------------------------------------
 
-input_layer <- layer_input(shape = c(3, ncol(X)))  # Déclare l'entrée explicitement
+input_layer <- layer_input(shape = c(3, dim(X)[3]))  # Déclare l'entrée explicitement
 
 output_layer <- input_layer %>%
   layer_lstm(units = 50, return_sequences = FALSE) %>%
@@ -37,8 +38,43 @@ output_layer <- input_layer %>%
 model <- keras_model(inputs = input_layer, outputs = output_layer)
 
 # Compilation du modèle
-model %>% compile(
+
+model %>% tensorflow::tf$keras$Model$compile(
   loss = 'mean_squared_error',
   optimizer = 'adam'
 )
 
+history <- model %>% tensorflow::tf$keras$Model$fit(
+  X, y,
+  epochs = as.integer(100),
+  batch_size = as.integer(32),
+  validation_split = 0.2
+)
+
+plot_data <- as.data.frame(history$history) %>%
+  mutate(x = 1:nrow(.)) %>%
+  tidyr::pivot_longer(
+  cols = c("loss", "val_loss"),
+  values_to = "loss"
+  )
+
+ggplot(plot_data, aes(x = x, y = loss)) +
+  geom_line(aes(group = name, color = name))
+
+# Reformater new_X pour avoir 3 dimensions (1, timesteps, features)
+i <- 1:nrow(data)
+new_X <- array(X[i,,], dim = c(1, dim(X)[2], dim(X)[3]))
+
+new_X <- X[i,,]
+
+preds <- model %>% tensorflow::tf$keras$Model$predict(new_X)
+real <- data$game_score[i]
+
+check <- data.frame(
+  pred <- preds[,1],
+  real
+)
+
+ggplot(check, aes(x = real, y = pred)) +
+  geom_jitter() +
+  geom_smooth()
