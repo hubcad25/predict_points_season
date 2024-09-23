@@ -43,7 +43,7 @@ df_dependent_variables <- df_individual_skaters |>
   filter(situation == "all") |> 
   select(
     player_id, season,
-    points, goals, assists
+    points, goals, assists, games_played
   )
 
 df_lines <- readRDS("data/warehouse/lines.rds")
@@ -131,7 +131,7 @@ output <- df_even %>%
     -all_of(c("yob", "first_name", "last_name"))
   ) |> 
   relocate(
-    points, goals, assists, age, height, draft_rank, ev_icetime, pp_icetime
+    points, goals, assists, games_played, age, height, draft_rank, ev_icetime, pp_icetime
   ) |> 
   tidyr::drop_na()
 
