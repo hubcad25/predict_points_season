@@ -4,9 +4,9 @@
 
 # Data -------------------------------------------------------------------
 data_f <- readRDS("data/marts/data_random_forest_forwards.rds") |> 
-  dplyr::select(-points, -player_id)
+  dplyr::select(-points, -player_id, -games_played)
 data_d <- readRDS("data/marts/data_random_forest_defensemen.rds") |> 
-  dplyr::select(-points, -player_id)
+  dplyr::select(-points, -player_id, -games_played)
 
 # Forwards ---------------------------------------------------------------
 
