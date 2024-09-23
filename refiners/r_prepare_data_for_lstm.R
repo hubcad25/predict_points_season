@@ -41,6 +41,7 @@ scale_info_f <- lapply(variables, function(x) {
 })
 names(scale_info_f) <- variables
 
+saveRDS(data_f_scaled, "data/marts/data_scaled_forwards.rds")
 saveRDS(scale_info_f, "data/marts/lstm_scale_info_f.rds")
 
 scale_d <- scale(data_d[, variables])
@@ -53,6 +54,7 @@ scale_info_d <- lapply(variables, function(x) {
 })
 names(scale_info_d) <- variables
 
+saveRDS(data_d_scaled, "data/marts/data_scaled_defensemen.rds")
 saveRDS(scale_info_d, "data/marts/lstm_scale_info_d.rds")
 
 # Build past stats dataframe ---------------------------------------------
