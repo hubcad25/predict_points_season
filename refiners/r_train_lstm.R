@@ -39,13 +39,15 @@ for (i in variables){
   data_lstm_f <- ptspredictR::prepare_lstm_data(
     df_with_target_f,
     target = i,
-    include = c("game_score", "ev_icetime", "onice_xg_pct", "finishing_mediumdanger"),
+    include = ptspredictR::lstm_features,
+    fixed_variables = ptspredictR::lstm_fixed_features,
     window = 4
   )
   data_lstm_d <- ptspredictR::prepare_lstm_data(
     df_with_target_d,
     target = i,
-    include = c("game_score", "ev_icetime", "onice_xg_pct", "finishing_mediumdanger"),
+    include = ptspredictR::lstm_features,
+    fixed_variables = ptspredictR::lstm_fixed_features,
     window = 4
   )
   lstm_model_f <- ptspredictR::train_lstm(data_lstm_f$X, data_lstm_f$y, window = 4, num_threads = 4)
@@ -56,25 +58,3 @@ for (i in variables){
   cat(sprintf("\r%s DONE [%s] %d%%                              ", i, bar, round((ix / length(variables)) * 100)))  # Utilisation de "\r" pour revenir au début de la ligne
   flush.console()  # Forcer l'affichage immédiat
 }
-
-
-
-model2 <- keras::load_model_hdf5("path")
-
-new_X <- X
-
-preds <- model2 %>% tensorflow::tf$keras$Model$predict(new_X)
-real <- df_with_target_f$game_score
-
-check <- data.frame(
-  pred <- preds[,1],
-  real
-)
-
-# Set TensorFlow threading configuration
-tensorflow::tf$config$threading$set_inter_op_parallelism_threads(12)
-tensorflow::tf$config$threading$set_intra_op_parallelism_threads(8)
-
-ggplot(check, aes(x = real, y = pred)) +
-  geom_jitter() +
-  geom_smooth()
