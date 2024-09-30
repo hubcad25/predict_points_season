@@ -25,6 +25,7 @@ model_assists <- ptspredictR::train_random_forest(
 )
 
 randomForest::varImpPlot(model_assists)
+hist(predict(model_assists))
 
 saveRDS(model_assists, "apis/points_predictor_api/models/assists_f.rds")
 
